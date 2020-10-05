@@ -1,13 +1,9 @@
 package com.wordcount;
-import javax.imageio.ImageIO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
 
 public class Wrc extends JFrame implements ActionListener  {
@@ -18,8 +14,8 @@ public class Wrc extends JFrame implements ActionListener  {
 	JButton s;
 	JButton p;
 	JButton tf;
-	Image img = null;
-	JLabel background;
+	JButton rs;
+	
 	Wrc() {
 		super("JAVA WORD COUNTER");
 		w = new JLabel("WORDS:");
@@ -29,51 +25,40 @@ public class Wrc extends JFrame implements ActionListener  {
 		s = new JButton("SUBMIT");
 		p = new JButton("PAD COL");
 		tf = new JButton("TEXT COL");
+		rs = new JButton("RESET");
 		
 		
-		try {
-			String impath = "D:\\wordcounter.jpg";
-			URL imgurl = getClass().getResource(impath);
-			if (imgurl == null) {
-				
-			}
-			else {
-				img = ImageIO.read(imgurl);
-			}
-		}catch(IOException ex) {
-			JOptionPane.showMessageDialog(this,"Back ground image not found."); 
-		}
-		catch(NullPointerException exc) {
-			System.out.println(exc);
-		}
 		
 		
 		ch.setBounds(50,50,120,20);
 		w.setBounds(50,80,120,20);
 		ta1.setBounds(50,120,140,20);
-		ta.setBounds(50,140,300,200);
+		ta.setBounds(50,140,320,300);
 		s.setBounds(50,460,100,20);
 		s.addActionListener(this);
+		s.setBackground(Color.lightGray);
+		s.setContentAreaFilled(false);
+		s.setOpaque(true);
 		p.setBounds(160,460,100,20);
 		p.addActionListener(this);
+		p.setBackground(Color.lightGray);
+		p.setContentAreaFilled(false);
+		p.setOpaque(true);
 		tf.setBounds(270,460,100,20);
 		tf.addActionListener(this);
-		try {
-		BufferedImage img = ImageIO.read(new File("D:\\wordcounter"));
-		background = new JLabel(new ImageIcon(img));
-		}
-		catch(IOException ex) {
-			System.out.println(ex);
-		}catch(NullPointerException exc) {
-			System.out.println(exc);
-		}
-		background = new JLabel(new ImageIcon(img));
-		background.setBounds(0,0,400,400);
-		add(background);
-		add(w);add(ch);add(ta);add(ta1);add(s);add(p);add(tf);
+		tf.setBackground(Color.lightGray);
+		tf.setContentAreaFilled(false);
+		tf.setOpaque(true);
+		rs.setBounds(50,480,100,20);
+		rs.addActionListener(this);
+		rs.setBackground(Color.lightGray);
+		rs.setContentAreaFilled(false);
+		rs.setOpaque(true);
+		
+		
+		add(w);add(ch);add(ta);add(ta1);add(s);add(p);add(tf);add(rs);
 		setSize(400,400);
-		
-		
+		setLayout(null);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE); 
 	}
@@ -83,7 +68,12 @@ public class Wrc extends JFrame implements ActionListener  {
 			String[] words = text.split("\\s");
 			int chars = text.length();
 			ch.setText("CHARACTERS:"+chars);
-			w.setText("WORDS:"+words.length);
+			if(text.equals("")) {
+				w.setText("WORDS:"+0);
+			}
+			else {
+				w.setText("WORDS:"+words.length);
+			}
 		}else if(e.getSource() == p) {
 			Color c = JColorChooser.showDialog(ta, "choose color", Color.WHITE);
 			ta.setBackground(c);
@@ -91,6 +81,9 @@ public class Wrc extends JFrame implements ActionListener  {
 		else if(e.getSource() == tf) {
 			Color c = JColorChooser.showDialog(tf, "choose color", Color.blue);
 			ta.setForeground(c);
+		}
+		else if(e.getSource() == rs) {
+			ta.setText("");
 		}
 	}
 	public static void main(String args[]) {
